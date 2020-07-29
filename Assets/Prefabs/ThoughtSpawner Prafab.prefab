@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2473164580468181719}
   - component: {fileID: 2473164580468181714}
   m_Layer: 0
-  m_Name: ThoughtSpawner
+  m_Name: ThoughtSpawner Prafab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,10 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc02741342af554caa1017a2eb3960d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Aura: {fileID: 0}
   ThoughtPrefab: {fileID: 2328628565841081235, guid: 588e7d003b9cdf545affd3ff6060ef9b,
     type: 3}
   ThoughtHolder: {fileID: 0}
-  SpawnRate: 0.01
+  SpawnRate: 0.2
   RestTime: 2
   moverate: 0.05
 --- !u!61 &2473164580468181719

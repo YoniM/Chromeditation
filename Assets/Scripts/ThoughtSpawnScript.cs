@@ -7,7 +7,7 @@ public class ThoughtSpawnScript : MonoBehaviour
     public Transform Aura;
     public Transform ThoughtPrefab;
     public Transform ThoughtHolder;
-    public float SpawnRate; // thoughts per second
+    public float SpawnRate = 0.2f; // thoughts per second
     public float RestTime = 2f; // [sec]
     float t0, RestTimeActual;
     public float moverate;
@@ -16,7 +16,8 @@ public class ThoughtSpawnScript : MonoBehaviour
     
     void Start()
     {
-        t0 = Time.time;
+       SpawnRate = SpawnRate * Time.deltaTime;
+       t0 = Time.time;
         RestTimeActual = 0;
         if (Mathf.Abs(transform.position.x) > Mathf.Abs(transform.position.y))
         {

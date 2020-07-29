@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2328628565841081235}
   - component: {fileID: 2328628565841081232}
-  - component: {fileID: 1332590961946382261}
   - component: {fileID: 375455418446262283}
+  - component: {fileID: -677854451040702069}
   m_Layer: 0
-  m_Name: Thought
+  m_Name: Thought Prafab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,8 +83,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &1332590961946382261
-BoxCollider2D:
+--- !u!114 &375455418446262283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2328628565841081233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3a8296e5c87aac498f9906fef8881cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColors:
+  - {r: 1, g: 0, b: 0, a: 0.5019608}
+  - {r: 0, g: 1, b: 0, a: 0.5019608}
+  - {r: 0, g: 0, b: 1, a: 0.5019608}
+  - {r: 1, g: 1, b: 0, a: 0.5019608}
+  - {r: 0, g: 1, b: 1, a: 0.5019608}
+  - {r: 1, g: 0, b: 1, a: 0.5019608}
+  Aura: {fileID: 0}
+  moverate: 1
+  fallspeed: 0.5
+  randomspeed: 1
+  maxturnrate: 50
+--- !u!60 &-677854451040702069
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -106,22 +130,11 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &375455418446262283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2328628565841081233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3a8296e5c87aac498f9906fef8881cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Aura: {fileID: 0}
-  moverate: 1
-  movenoise: 1
-  maxturnrate: 50
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.5}
+      - {x: -0.43301272, y: 0.25}
+      - {x: -0.4330127, y: -0.25000003}
+      - {x: 0.000000059604645, y: -0.5}
+      - {x: 0.43301272, y: -0.24999994}
+      - {x: 0.43301272, y: 0.24999994}

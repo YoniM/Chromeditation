@@ -10,9 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2328628565841081235}
   - component: {fileID: 2328628565841081232}
-  - component: {fileID: 8144984661116975552}
   - component: {fileID: 2681459205125109828}
   - component: {fileID: -2886107170742493722}
+  - component: {fileID: 8144984661116975552}
+  - component: {fileID: 778319375977699782}
+  - component: {fileID: 4275909956391966249}
   m_Layer: 0
   m_Name: Aura Prefab
   m_TagString: Untagged
@@ -84,23 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8144984661116975552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2328628565841081233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43905fe6f6b2abe4db672d295c7622d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SizeAtStart: 1.2
-  ColorAtStart: {r: 1, g: 1, b: 1, a: 1}
-  PushCostInAuraSize: 0.05
-  SizeGrowth: 0.05
-  ColorIndicator: {fileID: 0}
 --- !u!58 &2681459205125109828
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -131,10 +116,52 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!114 &8144984661116975552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2328628565841081233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43905fe6f6b2abe4db672d295c7622d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ColorAtStart: {r: 1, g: 1, b: 1, a: 1}
+  PushCost: 0.05
+  HitCost: 0.1
+--- !u!114 &778319375977699782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2328628565841081233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819cc79cc0e25b34c8c653580b90a5db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinSizeAtStart: 1.2
+  MaxSizeAtStart: 1.2
+  SizeGrowth: 0.05
+--- !u!114 &4275909956391966249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2328628565841081233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 342cfac05e2d4fc48b6773c64832282a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

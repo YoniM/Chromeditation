@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ThoughtScript : MonoBehaviour
 {
-    public float SizeAtStart = 1f;
     public Color[] BasicColors;
     public Transform Aura;
     public float moverate = 1f; // [m/sec]
@@ -12,31 +11,26 @@ public class ThoughtScript : MonoBehaviour
     public float randomspeed = 1f; // random movement speed relative to fallspeed
     public float maxturnrate = 50f; // [deg/sec]
 
-    float size;
-    Color color;
-    SpriteRenderer sr;
-    public float GetSize() { return size; }
-    public void SetSize(float sizeinput) { size = sizeinput; }
+    public float SizeGrowthAtPerfectBalance = -0.05f;
 
-    public Color GetColor() { return color; }
-    public void SetColor(Color colorinput) { color = colorinput; sr.color = color; }
-
+    SizeControl sc;
+    ColorControl cc;
 
     //public float turnrate_changerate = 5f; // [deg/sec]
-    float minturnrate = 0.1f;
+    readonly float minturnrate = 0.1f;
     float turnrate;
     // Start is called before the first frame update
     void Start()
     {
-        // initiate size:
-        size = SizeAtStart;
-        transform.localScale = size * transform.localScale;
+        sc = GetComponent<SizeControl>();
+        cc = GetComponent<ColorControl>();
+
 
         // initiate color
-        sr = GetComponent<SpriteRenderer>();
         int NumberOfBasicColors = BasicColors.Length;
-        SetColor(BasicColors[Random.Range(0, NumberOfBasicColors)]);
-        
+        cc.SetColor(BasicColors[Random.Range(0, NumberOfBasicColors)]);
+
+        SetSizeGrowth();
 
         // initiate rotation and movement
         Rotate(Random.Range(0,360)); // [deg]
@@ -52,7 +46,6 @@ public class ThoughtScript : MonoBehaviour
         //turnrate += (Random.Range(0, 2) * 2 - 1) * turnrate_changerate * Time.deltaTime;
         FallDirection = Vector3.Normalize(Aura.position - transform.position);
         transform.position += (FallDirection * fallspeed + transform.up * randomspeed) * moverate;
-
     }
 
     private void Rotate(float turn)
@@ -63,6 +56,41 @@ public class ThoughtScript : MonoBehaviour
     public void SetAuraInstance(Transform instance)
     {
         Aura = instance;
+    }
+
+    public void SetSizeGrowth()
+    {
+        sc.SizeGrowth = SizeGrowthAtPerfectBalance * cc.ColorBalance();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // This deals with colliding thoughts:
+        ThoughtScript other_thought;
+        SizeControl other_sc;
+        ColorControl other_cc;
+        float othersize;
+
+        other_thought = collision.gameObject.GetComponent<ThoughtScript>();
+        if (other_thought != null)
+        {
+            other_sc = other_thought.GetComponent<SizeControl>();
+            other_cc = other_thought.GetComponent<ColorControl>();
+            othersize = other_sc.GetSize();
+            if (sc.GetSize()>othersize) // i.e. if I am bigger
+            {
+                sc.AddSize(othersize); // larger sized thought "swallows" the othe thought
+
+                cc.AddColor(other_cc.GetColor() * othersize);
+
+                SetSizeGrowth();
+
+                Destroy(other_thought.gameObject);
+            }
+                
+        }
+
+
     }
 
 }

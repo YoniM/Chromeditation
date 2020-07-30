@@ -4,83 +4,63 @@ using UnityEngine;
 
 public class AuraScript : MonoBehaviour
 {
-    public float SizeAtStart = 1.2f; // [size]
     public Color ColorAtStart = Color.white;
-    public float PushCostInAuraSize = 0.05f; // [size/push]
-    public float SizeGrowth = 0.05f; // [size/sec]
+    public float PushCost = 0.05f; // [size/push]
+    public float HitCost = 0.1f; // [size/thoughtsize]
 
-    float SizeGrowth0;
-    float size;
-    Color color;
-    SpriteRenderer sr;
+    public float ColorBalanceAffectOnSize = 5f; // positive value means that size will increase with balance of color
+    public float SizeGrowthAtPerfectBalance = 0.05f;
+    SizeControl sc;
+    ColorControl cc;
 
-    public float GetSize() { return size; }
-    public void SetSize(float sizeinput) { size = sizeinput; }
-
-    public Color GetColor() { return color; }
-    public void SetColor(Color colorinput)
-    {
-        color = colorinput;
-        Color colorshow = color;
-        colorshow.r += (1 - color.maxColorComponent);
-        colorshow.g += (1 - color.maxColorComponent);
-        colorshow.b += (1 - color.maxColorComponent);
-        colorshow.a = ColorBalance();
-        SizeGrowth = SizeGrowth0 * ColorBalance();
-        Debug.Log(SizeGrowth);
-        sr.color = colorshow;
-    }
-
-    public float ColorBalance()
-    {
-        float meancolor = (color.r + color.g + color.b)/3;
-        float varcolor = Mathf.Pow((color.r - meancolor), 2) + Mathf.Pow((color.g - meancolor), 2) + Mathf.Pow((color.b - meancolor), 2);
-        return 1-Mathf.Sqrt(varcolor);
-    }
-
-    Vector3 LocalScale0;
-
-    public Transform ColorIndicator;
-
-    // Start is called before the first frame update
     void Start()
     {
-        SizeGrowth0 = SizeGrowth;
-        sr = GetComponent<SpriteRenderer>();
-        size = SizeAtStart;
-        LocalScale0 = size * transform.localScale;
-        transform.localScale = LocalScale0;
+        sc = GetComponent<SizeControl>();
+        cc = GetComponent<ColorControl>();
+
+        cc.SetColor(ColorAtStart);
+        SetSizeGrowth();
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        size += SizeGrowth * Time.deltaTime;
-        transform.localScale = size * LocalScale0;
+
     }
 
-    public void AuraSizeChange(float SizeChange)
+    public void SetSizeGrowth()
     {
-        size += SizeChange;
-    }
-
-    public void AddColor(Color colorinput)
-    {
-        Color newcolor = (color + colorinput);
-        float colormagnitude = newcolor.r + newcolor.g + newcolor.b;
-        newcolor = newcolor / colormagnitude;
-        SetColor(newcolor);
-        
+        sc.SizeGrowth = SizeGrowthAtPerfectBalance * cc.ColorBalance();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        ThoughtScript thought;
-        thought = collision.gameObject.GetComponent<ThoughtScript>();
-        if (thought != null)
+        // This deals with thoughts colliding with Aura:
+        ThoughtScript other_thought;
+        SizeControl other_sc;
+        ColorControl other_cc;
+        float othersize;
+        float colorbalance;
+        Color newcolor;
+
+        other_thought = collision.gameObject.GetComponent<ThoughtScript>();
+        if (other_thought != null)
         {
-            AddColor(thought.GetColor() * thought.GetSize());
-            Destroy(thought.gameObject);
+            other_sc = other_thought.GetComponent<SizeControl>();
+            other_cc = other_thought.GetComponent<ColorControl>();
+            othersize = other_sc.GetSize();
+            colorbalance = cc.ColorBalance();
+
+            sc.AddSize(-othersize * HitCost); // thought that hits Aura reduces its size
+
+            newcolor = other_cc.GetColor() * othersize;
+            newcolor.a = colorbalance; // alpha of Aura would be small (i.e. more transparent) if aura is not balanced
+            cc.AddColor(newcolor);
+
+            SetSizeGrowth();
+
+            Destroy(other_thought.gameObject);
         }
         
     }

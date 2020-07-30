@@ -11,7 +11,9 @@ public class ThoughtScript : MonoBehaviour
     public float randomspeed = 1f; // random movement speed relative to fallspeed
     public float maxturnrate = 50f; // [deg/sec]
 
-    public float SizeGrowthAtPerfectBalance = -0.05f;
+    public float swallowfactor = 0.5f; // how much of the smaller thought size is transfered to the larger size
+    public float SizeGrowthAtPerfectBalance = -1f;
+    public float BalanceThresholdAffectingGrowth = 0.5f;
 
     SizeControl sc;
     ColorControl cc;
@@ -19,7 +21,8 @@ public class ThoughtScript : MonoBehaviour
     //public float turnrate_changerate = 5f; // [deg/sec]
     readonly float minturnrate = 0.1f;
     float turnrate;
-    // Start is called before the first frame update
+    
+
     void Start()
     {
         sc = GetComponent<SizeControl>();
@@ -60,7 +63,8 @@ public class ThoughtScript : MonoBehaviour
 
     public void SetSizeGrowth()
     {
-        sc.SizeGrowth = SizeGrowthAtPerfectBalance * cc.ColorBalance();
+        //sc.SizeGrowth = SizeGrowthAtPerfectBalance * cc.ColorBalance();
+        sc.SizeGrowth = SizeGrowthAtPerfectBalance * 2 * Mathf.Max(0f,(cc.ColorBalance() - BalanceThresholdAffectingGrowth));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -81,16 +85,18 @@ public class ThoughtScript : MonoBehaviour
             {
                 sc.AddSize(othersize); // larger sized thought "swallows" the othe thought
 
-                cc.AddColor(other_cc.GetColor() * othersize);
+                cc.AddColor(other_cc.GetColor() * othersize * swallowfactor);
 
                 SetSizeGrowth();
 
                 Destroy(other_thought.gameObject);
-            }
-                
+            }       
         }
+    }
 
-
+    private void OnDestroy()
+    {
+        Debug.Log("sound pop");
     }
 
 }

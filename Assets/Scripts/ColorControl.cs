@@ -4,21 +4,18 @@ using UnityEngine;
 
 public class ColorControl : MonoBehaviour
 {
-    SizeControl sc;
     SpriteRenderer sr;
     Color color;
+    public float balance;
 
     public Color GetColor() { return color; }
 
 
-    // Start is called before the first frame update
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
-        sc = GetComponent<SizeControl>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -29,9 +26,9 @@ public class ColorControl : MonoBehaviour
         color = colorinput;
         Color colorshow = color;
         // saturate showcolor
-        colorshow.r += (1 - color.maxColorComponent);
-        colorshow.g += (1 - color.maxColorComponent);
-        colorshow.b += (1 - color.maxColorComponent);
+        colorshow.r += (1 - GetColor().maxColorComponent);
+        colorshow.g += (1 - GetColor().maxColorComponent);
+        colorshow.b += (1 - GetColor().maxColorComponent);
         if (sr == null)
             sr = GetComponent<SpriteRenderer>();
 
@@ -45,10 +42,11 @@ public class ColorControl : MonoBehaviour
     /// <returns> 1 - std(RGB) ; For example if RGB = [1,0.5,0] returns 0.75 </returns>
     public float ColorBalance()
     {
-        float meancolor = (color.r + color.g + color.b) / 3;
-        float varcolor = Mathf.Pow((color.r - meancolor), 2) + Mathf.Pow((color.g - meancolor), 2) + Mathf.Pow((color.b - meancolor), 2);
-        varcolor *= 3; // normalize between 0-1
-        return 1 - Mathf.Sqrt(varcolor);
+        float meancolor = (GetColor().r + GetColor().g + GetColor().b) / 3;
+        float varcolor = Mathf.Pow((GetColor().r - meancolor), 2) + Mathf.Pow((GetColor().g - meancolor), 2) + Mathf.Pow((GetColor().b - meancolor), 2); // the variance is not devided by 3 so as to have it normalized between 0-1
+        balance = 1 - Mathf.Sqrt(varcolor);
+        if (balance < 0 || balance > 1) Debug.LogError("Something is wrong!");
+        return balance;
         //return 1 + varcolor - 2 * Mathf.Sqrt(varcolor);
     }
 

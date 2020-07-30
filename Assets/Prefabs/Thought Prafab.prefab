@@ -162,6 +162,8 @@ MonoBehaviour:
   fallspeed: 0.5
   randomspeed: 1
   maxturnrate: 50
+  swallowfactor: 0.5
+  SizeGrowthAtPerfectBalance: -1
 --- !u!114 &-9152919999196779450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,9 +176,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819cc79cc0e25b34c8c653580b90a5db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSizeAtStart: 0.5
+  MinSizeAtStart: 0.8
   MaxSizeAtStart: 1.5
   SizeGrowth: 0
+  MinSize: 0.5
+  destructable: 1
 --- !u!114 &3379967275557909199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,3 +193,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 342cfac05e2d4fc48b6773c64832282a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  balance: 0

@@ -150,6 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3a8296e5c87aac498f9906fef8881cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pop_prefab: {fileID: 1273922420716515804, guid: 89fde0580216c4f41a0e726ae85c7468,
+    type: 3}
   BasicColors:
   - {r: 1, g: 0, b: 0, a: 0.5019608}
   - {r: 0, g: 1, b: 0, a: 0.5019608}
@@ -164,6 +166,7 @@ MonoBehaviour:
   maxturnrate: 50
   swallowfactor: 0.5
   SizeGrowthAtPerfectBalance: -1
+  BalanceThresholdAffectingGrowth: 0.5
 --- !u!114 &-9152919999196779450
 MonoBehaviour:
   m_ObjectHideFlags: 0

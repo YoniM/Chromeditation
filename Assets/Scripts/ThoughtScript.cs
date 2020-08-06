@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ThoughtScript : MonoBehaviour
 {
+    public GameObject pop_prefab;
     public Color[] BasicColors;
     public Transform Aura;
     public float moverate = 1f; // [m/sec]
@@ -67,6 +68,7 @@ public class ThoughtScript : MonoBehaviour
         sc.SizeGrowth = SizeGrowthAtPerfectBalance * 2 * Mathf.Max(0f,(cc.ColorBalance() - BalanceThresholdAffectingGrowth));
     }
 
+    [System.Obsolete]
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // This deals with colliding thoughts:
@@ -89,14 +91,12 @@ public class ThoughtScript : MonoBehaviour
 
                 SetSizeGrowth();
 
+                GameObject pop = Instantiate(pop_prefab, other_thought.transform.position, Quaternion.identity);
+                pop.GetComponent<ParticleSystem>().startColor = other_thought.cc.GetColor();
                 Destroy(other_thought.gameObject);
             }       
         }
     }
 
-    private void OnDestroy()
-    {
-        Debug.Log("sound pop");
-    }
 
 }

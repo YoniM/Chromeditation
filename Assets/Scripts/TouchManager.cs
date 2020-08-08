@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TouchScript : MonoBehaviour
+public class TouchManager : MonoBehaviour
 {
     #region Singleton Setup
-    public static TouchScript Instance { get; private set; }
+    public static TouchManager Instance { get; private set; }
 
     private void Awake()
     {
@@ -31,18 +31,20 @@ public class TouchScript : MonoBehaviour
     private Vector2 startTouch, holdDelta;
     private float releasezonesqr, deadzonesqr;
 
-    public bool Tap { get { return tap; } }
-    public bool IsDraging { get { return isDraging; } }
-    public bool IsSwipe { get { return isSwipe; } }
+    public bool Tap { get { Debug.Log("tap  = " + tap); return tap; } }
+    public bool IsDraging { get { Debug.Log("draging = " +isDraging); return isDraging; } }
+    public bool IsSwipe { get { Debug.Log("swipe = " + isSwipe); return isSwipe; } }
 
-    public Vector2 HoldDelta { get { return holdDelta; } }
+    public Vector2 StartTouch { get { Debug.Log("StartTouch = " + startTouch); return startTouch; } }
+
+    public Vector2 HoldDelta { get { Debug.Log(holdDelta); return holdDelta; } }
 
     
 
     private void Start()
     {
         deadzonesqr = deadzone * deadzone;
-        releasezonesqr = releasezone* releasezone;
+        releasezonesqr = releasezone * releasezone;
     }
 
 
@@ -55,7 +57,7 @@ public class TouchScript : MonoBehaviour
             UpdateMobile();
         #endif
 
-
+        
         if (isDraging)
         {
             if (Input.touches.Length > 0)
@@ -64,10 +66,10 @@ public class TouchScript : MonoBehaviour
                 holdDelta = (Vector2)Input.mousePosition - startTouch;
         }
 
-        if (isDraging && holdDelta.SqrMagnitude() > deadzonesqr)
+        if (!isSwipe && isDraging && holdDelta.SqrMagnitude() > deadzonesqr)
             isSwipe = true;
             
-        if (!isDraging || (isDraging && holdDelta.SqrMagnitude() > releasezonesqr))
+        if (isDraging && holdDelta.SqrMagnitude() > releasezonesqr)
             Reset();
         
     }
@@ -103,7 +105,7 @@ public class TouchScript : MonoBehaviour
 
     private void Reset()
     {
-        tap = isDraging = false;
+        tap = isDraging = isSwipe = false;
         startTouch = holdDelta = Vector2.zero;
     }
 
